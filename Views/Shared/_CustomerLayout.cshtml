@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewBag.Title - MyStore</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="@Url.Content("~/Content/myStyle/CustomerHome.css")" />
+    @RenderSection("Styles", required: false)
+</head>
+<body>
+    <div class="top-strip">MYSTORE - MUA SẮM DỄ DÀNG, GIAO HÀNG TẬN NƠI</div>
+    <nav class="navbar navbar-default customer-nav">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#customer-menu">
+                    <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("MyStore", "Index", "Home", null, new { @class = "navbar-brand brand-name" })
+            </div>
+            <div class="collapse navbar-collapse" id="customer-menu">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Trang chủ", "Index", "Home")</li>
+                    @if (ViewBag.Categories != null)
+                    {
+                        foreach (var category in (IEnumerable<BE5_CustomerSite.Models.Category>)ViewBag.Categories)
+                        {
+                            <li>@Html.ActionLink((string)category.CategoryName, "ProductList", "Home", new { id = category.CategoryID }, null)</li>
+                        }
+                    }
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="@Url.Action("Index", "Home")#products"><span class="glyphicon glyphicon-shopping-cart"></span> Giỏ hàng (@(Session["Cart"] is System.Collections.Generic.Dictionary<int, int> ? ((System.Collections.Generic.Dictionary<int, int>)Session["Cart"]).Values.Sum() : 0))</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <main class="container page-content">
+        @RenderBody()
+    </main>
+    <footer class="customer-footer">
+        <div class="container">
+            <strong>MyStore</strong><br />
+            Website bán hàng - Bài thực hành Backend 5: Customer Site
+        </div>
+    </footer>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,58 @@
+@model BE5_CustomerSite.Models.ViewModel.ProductDetailVM
+@{
+    ViewBag.Title = "Chi tiết sản phẩm";
+    var p = Model.Product;
+}
+<div class="breadcrumb-line">@Html.ActionLink("Trang chủ", "Index", "Home") <span>/</span> @p.Category.CategoryName <span>/</span> @p.ProductName</div>
+@if (TempData["CartMessage"] != null)
+{
+    <div class="alert alert-success">@TempData["CartMessage"]</div>
+}
+<section class="detail-card">
+    <div class="detail-image">
+        <img src="@Url.Content(String.IsNullOrWhiteSpace(p.ProductImage) ? "~/Content/images/no-image.svg" : p.ProductImage)" alt="@p.ProductName" onerror="this.onerror=null;this.src='@Url.Content("~/Content/images/no-image.svg")';" />
+    </div>
+    <div class="detail-info">
+        <span class="product-category">@p.Category.CategoryName</span>
+        <h1>@p.ProductName</h1>
+        <div class="detail-price">@p.ProductPrice.ToString("N0") đ</div>
+        <div class="sold-line">Đã bán: @p.SoldQuantity sản phẩm</div>
+        <div class="detail-description">@p.ProductDescription</div>
+        @using (Html.BeginForm("ProductDetail", "Home", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            @Html.Hidden("id", p.ProductID)
+            <div class="quantity-row">
+                <label for="quantity">Số lượng</label>
+                <input id="quantity" name="quantity" type="number" min="1" value="@Model.Quantity" class="form-control quantity-input" />
+            </div>
+            <div class="subtotal">Tạm tính: <strong id="subtotal">@((p.ProductPrice * Model.Quantity).ToString("N0")) đ</strong></div>
+            <button type="submit" class="btn btn-primary btn-add-cart"><span class="glyphicon glyphicon-shopping-cart"></span> Thêm vào giỏ hàng</button>
+        }
+    </div>
+</section>
+
+<section class="product-section">
+    <div class="section-heading"><div><span class="section-kicker">CÙNG DANH MỤC</span><h2>Sản phẩm tương tự</h2></div></div>
+    @Html.Partial("_PVRelatedProduct", Model.RelatedProducts)
+</section>
+<section class="product-section">
+    <div class="section-heading"><div><span class="section-kicker">ĐƯỢC QUAN TÂM</span><h2>Top Deals</h2></div></div>
+    @Html.Partial("_PVTopProduct", Model.TopProducts)
+</section>
+@section Scripts {
+<script>
+(function () {
+    var quantity = document.getElementById("quantity");
+    var subtotal = document.getElementById("subtotal");
+    var price = @p.ProductPrice.ToString(System.Globalization.CultureInfo.InvariantCulture);
+    if (quantity && subtotal) {
+        quantity.addEventListener("input", function () {
+            var q = parseInt(quantity.value, 10);
+            if (isNaN(q) || q < 1) q = 1;
+            subtotal.textContent = (price * q).toLocaleString("vi-VN") + " đ";
+        });
+    }
+})();
+</script>
+}

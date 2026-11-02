@@ -1,0 +1,2 @@
+C:\Users\ASUS\Downloads\25DH110574_BE5\25DH110574_BE5\obj\Debug\BE5_CustomerSite.csproj.AssemblyReference.cache
+C:\Users\ASUS\Downloads\25DH110574_BE5\25DH110574_BE5\obj\Debug\BE5_CustomerSite.csproj.CoreCompileInputs.cache

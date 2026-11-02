@@ -1,0 +1,21 @@
+@model IEnumerable<BE5_CustomerSite.Models.Product>
+<div class="product-grid featured-grid">
+    @if (Model != null && Model.Any())
+    {
+        foreach (var item in Model)
+        {
+            <div class="product-card">
+                <a href="@Url.Action("ProductDetail", "Home", new { id = item.ProductID })" class="product-image">
+                    <img src="@Url.Content(String.IsNullOrWhiteSpace(item.ProductImage) ? "~/Content/images/no-image.svg" : item.ProductImage)" alt="@item.ProductName" onerror="this.onerror=null;this.src='@Url.Content("~/Content/images/no-image.svg")';" />
+                </a>
+                <div class="product-info">
+                    <span class="product-category">@item.Category.CategoryName</span>
+                    <h3>@Html.ActionLink(item.ProductName, "ProductDetail", "Home", new { id = item.ProductID }, null)</h3>
+                    <div class="product-price">@item.ProductPrice.ToString("N0") đ</div>
+                    <small>Đã bán: @item.SoldQuantity</small>
+                </div>
+            </div>
+        }
+    }
+    else { <p class="empty-state">Chưa có sản phẩm phù hợp.</p> }
+</div>

@@ -1,0 +1,36 @@
+@model BE5_CustomerSite.Models.ViewModel.HomeProductVM
+@using PagedList.Mvc
+@{
+    ViewBag.Title = "Trang chủ";
+}
+<section class="hero-banner">
+    <div class="hero-copy">
+        <span class="hero-kicker">CHÀO MỪNG ĐẾN VỚI MYSTORE</span>
+        <h1>Mua sắm thông minh<br />Chọn điều bạn yêu thích</h1>
+        <p>Khám phá các sản phẩm nổi bật và lựa chọn phù hợp với bạn.</p>
+        <a href="#products" class="btn btn-light">Khám phá ngay</a>
+    </div>
+</section>
+
+<section class="search-panel">
+    @using (Html.BeginForm("Index", "Home", FormMethod.Get, new { @class = "search-form" }))
+    {
+        <span class="glyphicon glyphicon-search"></span>
+        @Html.TextBox("searchTerm", Model.SearchTerm, new { @class = "form-control", placeholder = "Tìm theo tên, mô tả hoặc danh mục sản phẩm..." })
+        <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+    }
+</section>
+
+<section class="product-section">
+    <div class="section-heading">
+        <div><span class="section-kicker">ĐƯỢC YÊU THÍCH</span><h2>Sản phẩm nổi bật</h2></div>
+    </div>
+    @Html.Partial("_PVFeatureProduct", Model.FeaturedProducts)
+</section>
+
+<section class="product-section" id="products">
+    <div class="section-heading">
+        <div><span class="section-kicker">GỢI Ý DÀNH CHO BẠN</span><h2>Sản phẩm mới</h2></div>
+    </div>
+    @Html.Partial("_PVNewProduct", Model.NewProducts)
+</section>

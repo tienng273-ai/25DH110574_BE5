@@ -1,0 +1,7 @@
+@model PagedList.IPagedList<BE5_CustomerSite.Models.Product>
+@using PagedList.Mvc
+@{
+    ViewBag.Title = ViewBag.CategoryName;
+}
+<div class="section-heading"><div><span class="section-kicker">DANH MỤC</span><h2>@ViewBag.CategoryName</h2></div></div>
+@Html.Partial("_PVNewProduct", Model)
